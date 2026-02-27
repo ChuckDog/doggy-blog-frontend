@@ -1,36 +1,190 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐶 狗狗日记 - 狗狗博客前端项目
 
-## Getting Started
+一个基于 Next.js 16 构建的现代化狗狗主题博客网站，专注于分享养狗经验、训练技巧和狗狗生活故事。
 
-First, run the development server:
+## 🌟 项目特色
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **现代化技术栈**: Next.js 16 + TypeScript + Tailwind CSS
+- **响应式设计**: 完美适配桌面端和移动端
+- **SEO友好**: 支持静态生成和服务器端渲染
+- **用户体验**: 流畅的动画效果和直观的界面设计
+- **功能完整**: 搜索、分类、标签、文章详情等核心功能
+
+## 🚀 技术栈
+
+- **框架**: Next.js 16 (App Router)
+- **语言**: TypeScript
+- **样式**: Tailwind CSS
+- **组件**: React Server Components
+- **字体**: Google Fonts (Geist)
+- **构建**: Next.js 内置编译器
+
+## 📁 项目结构
+
+```
+doggy-blog-frontend/
+├── app/                    # Next.js App Router 目录
+│   ├── about/             # 关于我们页面
+│   ├── categories/        # 分类相关页面
+│   │   └── [categoryId]/ # 分类详情页
+│   ├── posts/            # 文章详情页
+│   │   └── [id]/         # 具体文章页
+│   ├── tags/             # 标签相关页面
+│   │   └── [tagId]/      # 标签详情页
+│   ├── globals.css       # 全局样式
+│   ├── layout.tsx        # 根布局组件
+│   ├── not-found.tsx     # 404页面
+│   └── page.tsx          # 首页
+├── components/           # 可复用组件
+│   ├── BackToTop.tsx     # 回到顶部按钮
+│   ├── BlogCard.tsx      # 博客卡片组件
+│   ├── CategoryList.tsx  # 分类列表组件
+│   ├── Navigation.tsx    # 导航栏组件
+│   ├── SearchBar.tsx     # 搜索栏组件
+│   └── TagCloud.tsx      # 标签云组件
+├── lib/                  # 工具库
+│   └── data.ts          # 数据服务和工具函数
+├── types/               # TypeScript 类型定义
+│   └── blog.ts          # 博客相关类型
+├── public/              # 静态资源目录
+└── ...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ 开发环境搭建
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 环境要求
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js >= 18.0.0
+- yarn >= 1.22.0 (推荐) 或 npm >= 8.0.0
 
-## Learn More
+### 安装依赖
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# 使用 yarn (推荐)
+yarn install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 或使用 npm
+npm install
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 启动开发服务器
 
-## Deploy on Vercel
+```bash
+# 开发模式
+yarn dev
+# 或
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+访问 [http://localhost:3000](http://localhost:3000) 查看应用。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 构建生产版本
+
+```bash
+# 构建项目
+yarn build
+# 或
+npm run build
+
+# 启动生产服务器
+yarn start
+# 或
+npm start
+```
+
+### 代码检查
+
+```bash
+# 运行 ESLint
+yarn lint
+# 或
+npm run lint
+```
+
+## 🎨 主要功能
+
+### 1. 首页展示
+- Hero区域展示博客简介
+- 搜索功能
+- 最新文章列表
+- 分类和标签侧边栏
+
+### 2. 文章系统
+- 文章详情页面
+- Markdown格式内容渲染
+- 上下篇文章导航
+- 相关文章推荐
+
+### 3. 分类和标签
+- 分类浏览页面
+- 标签云展示
+- 按分类/标签筛选文章
+
+### 4. 搜索功能
+- 全文搜索
+- 实时搜索结果展示
+- 搜索历史清除
+
+### 5. 用户体验
+- 响应式导航栏
+- 回到顶部按钮
+- 平滑滚动效果
+- 加载状态提示
+
+## 📱 响应式设计
+
+项目采用移动优先的设计理念，支持以下设备：
+
+- **手机**: 320px - 767px
+- **平板**: 768px - 1023px  
+- **桌面**: 1024px+
+
+## 🎯 SEO优化
+
+- 语义化的HTML结构
+- 动态meta标签生成
+- 结构化数据标记
+- 响应式图片优化
+- 快速加载性能
+
+## 🚀 部署
+
+### Vercel (推荐)
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/doggy-blog-frontend)
+
+### 其他平台
+
+项目可以部署到任何支持Node.js的平台：
+
+- Netlify
+- AWS Amplify  
+- Google Cloud Run
+- 自有服务器
+
+## 🤝 贡献指南
+
+欢迎提交 Issue 和 Pull Request！
+
+1. Fork 项目
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+
+## 🐶 关于狗狗日记
+
+狗狗日记是一个专注于狗狗生活的博客平台，旨在：
+
+- 分享养狗经验和技巧
+- 记录与狗狗的美好时光
+- 建立爱狗人士交流社区
+- 推广科学养宠理念
+
+---
+
+Made with ❤️ for dog lovers everywhere! 🐾
