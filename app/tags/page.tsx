@@ -1,5 +1,5 @@
-import { getTags } from '@/lib/data';
-import Link from 'next/link';
+import { getTags } from "@/lib/data";
+import Link from "next/link";
 
 export default function TagsPage() {
   const tags = getTags();
@@ -13,9 +13,7 @@ export default function TagsPage() {
         {/* 页面标题 */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">标签云</h1>
-          <p className="text-xl text-gray-600">
-            探索狗狗世界的各个话题标签
-          </p>
+          <p className="text-xl text-gray-600">探索狗狗世界的各个话题标签</p>
         </div>
 
         {/* 标签云 */}
@@ -23,21 +21,22 @@ export default function TagsPage() {
           <div className="flex flex-wrap justify-center gap-3">
             {sortedTags.map((tag, index) => {
               // 根据排名确定大小和颜色
-              let sizeClass = '';
-              let colorClass = '';
-              
+              let sizeClass = "";
+              let colorClass = "";
+
               if (index < 3) {
                 // 前3名 - 大号粗体
-                sizeClass = 'text-2xl font-bold';
-                colorClass = 'text-orange-700 bg-orange-100 hover:bg-orange-200';
+                sizeClass = "text-2xl font-bold";
+                colorClass =
+                  "text-orange-700 bg-orange-100 hover:bg-orange-200";
               } else if (index < 8) {
                 // 4-8名 - 中号
-                sizeClass = 'text-lg font-semibold';
-                colorClass = 'text-orange-600 bg-orange-50 hover:bg-orange-100';
+                sizeClass = "text-lg font-semibold";
+                colorClass = "text-orange-600 bg-orange-50 hover:bg-orange-100";
               } else {
                 // 其他 - 小号
-                sizeClass = 'text-base';
-                colorClass = 'text-orange-500 bg-orange-50 hover:bg-orange-100';
+                sizeClass = "text-base";
+                colorClass = "text-orange-500 bg-orange-50 hover:bg-orange-100";
               }
 
               return (
@@ -59,7 +58,7 @@ export default function TagsPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-6">按字母顺序</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[...tags]
-              .sort((a, b) => a.name.localeCompare(b.name, 'zh-CN'))
+              .sort((a, b) => a.name.localeCompare(b.name, "zh-CN"))
               .map((tag) => (
                 <Link
                   key={tag.id}
@@ -80,18 +79,22 @@ export default function TagsPage() {
         {/* 统计信息 */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white rounded-xl shadow-md p-6 text-center">
-            <div className="text-3xl font-bold text-orange-500 mb-2">{tags.length}</div>
+            <div className="text-3xl font-bold text-orange-500 mb-2">
+              {tags.length}
+            </div>
             <div className="text-gray-600">总标签数</div>
           </div>
           <div className="bg-white rounded-xl shadow-md p-6 text-center">
             <div className="text-3xl font-bold text-orange-500 mb-2">
-              {Math.max(...tags.map(t => t.count))}
+              {Math.max(...tags.map((t) => t.count))}
             </div>
             <div className="text-gray-600">最多文章数</div>
           </div>
           <div className="bg-white rounded-xl shadow-md p-6 text-center">
             <div className="text-3xl font-bold text-orange-500 mb-2">
-              {(tags.reduce((sum, tag) => sum + tag.count, 0) / tags.length).toFixed(1)}
+              {(
+                tags.reduce((sum, tag) => sum + tag.count, 0) / tags.length
+              ).toFixed(1)}
             </div>
             <div className="text-gray-600">平均文章数</div>
           </div>

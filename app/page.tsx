@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import BlogCard from '@/components/BlogCard';
-import SearchBar from '@/components/SearchBar';
-import CategoryList from '@/components/CategoryList';
-import TagCloud from '@/components/TagCloud';
-import { blogPosts, getCategories, getTags } from '@/lib/data';
-import { BlogPost } from '@/types/blog';
+import { useState } from "react";
+import BlogCard from "@/components/BlogCard";
+import SearchBar from "@/components/SearchBar";
+import CategoryList from "@/components/CategoryList";
+import TagCloud from "@/components/TagCloud";
+import { blogPosts, getCategories, getTags } from "@/lib/data";
+import { BlogPost } from "@/types/blog";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<BlogPost[]>([]);
@@ -35,7 +35,7 @@ export default function Home() {
             在这里分享养狗的点点滴滴，记录每一个温馨时刻，
             与同样爱狗的朋友们一起交流经验。
           </p>
-          
+
           {/* 搜索框 */}
           <div className="max-w-2xl mx-auto mb-12">
             <SearchBar onSearch={handleSearch} />
@@ -44,15 +44,21 @@ export default function Home() {
           {/* 统计信息 */}
           <div className="flex justify-center space-x-8 text-gray-600">
             <div className="text-center">
-              <div className="text-2xl font-bold text-orange-500">{blogPosts.length}</div>
+              <div className="text-2xl font-bold text-orange-500">
+                {blogPosts.length}
+              </div>
               <div className="text-sm">篇文章</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-orange-500">{categories.length}</div>
+              <div className="text-2xl font-bold text-orange-500">
+                {categories.length}
+              </div>
               <div className="text-sm">个分类</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-orange-500">{tags.length}</div>
+              <div className="text-2xl font-bold text-orange-500">
+                {tags.length}
+              </div>
               <div className="text-sm">个标签</div>
             </div>
           </div>
@@ -99,7 +105,9 @@ export default function Home() {
               {!showSearchResults && displayPosts.length === 0 && (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🐶</div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-2">暂无文章</h3>
+                  <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                    暂无文章
+                  </h3>
                   <p className="text-gray-500">敬请期待更多精彩内容！</p>
                 </div>
               )}
@@ -107,7 +115,9 @@ export default function Home() {
               {showSearchResults && searchResults.length === 0 && (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">🔍</div>
-                  <h3 className="text-xl font-semibold text-gray-700 mb-2">没有找到相关文章</h3>
+                  <h3 className="text-xl font-semibold text-gray-700 mb-2">
+                    没有找到相关文章
+                  </h3>
                   <p className="text-gray-500">试试其他关键词吧</p>
                 </div>
               )}
@@ -117,10 +127,12 @@ export default function Home() {
             <div className="space-y-6">
               <CategoryList categories={categories} />
               <TagCloud tags={tags} />
-              
+
               {/* 关于我们小卡片 */}
               <div className="bg-white rounded-xl shadow-md p-6">
-                <h3 className="text-lg font-bold text-gray-900 mb-3">关于博主</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-3">
+                  关于博主
+                </h3>
                 <div className="flex items-center space-x-3 mb-3">
                   <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">
                     狗

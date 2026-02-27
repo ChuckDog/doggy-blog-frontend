@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import Link from 'next/link';
+import { useEffect } from "react";
+import Link from "next/link";
 
 export default function Error({
   error,
@@ -12,7 +12,7 @@ export default function Error({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error('Application error:', error);
+    console.error("Application error:", error);
   }, [error]);
 
   return (
@@ -31,9 +31,9 @@ export default function Error({
         <p className="text-xl text-gray-600 mb-2">
           别担心，这可能是临时的技术故障
         </p>
-        
+
         {/* 开发环境下显示错误详情 */}
-        {process.env.NODE_ENV === 'development' && (
+        {process.env.NODE_ENV === "development" && (
           <div className="bg-red-100 border border-red-200 rounded-lg p-4 mb-6 text-left">
             <h3 className="font-semibold text-red-800 mb-2">错误详情:</h3>
             <p className="text-red-700 text-sm font-mono break-words">
@@ -41,7 +41,9 @@ export default function Error({
             </p>
             {error.stack && (
               <details className="mt-2">
-                <summary className="cursor-pointer text-red-800 font-medium">查看堆栈跟踪</summary>
+                <summary className="cursor-pointer text-red-800 font-medium">
+                  查看堆栈跟踪
+                </summary>
                 <pre className="mt-2 text-xs text-red-600 whitespace-pre-wrap">
                   {error.stack}
                 </pre>
@@ -71,9 +73,7 @@ export default function Error({
 
         {/* 趣味提示 */}
         <div className="text-gray-500">
-          <p className="text-sm">
-            我们的程序员正在紧急修复这个问题...
-          </p>
+          <p className="text-sm">我们的程序员正在紧急修复这个问题...</p>
           <div className="mt-2 text-2xl">👨‍💻⚡🐕</div>
         </div>
       </div>

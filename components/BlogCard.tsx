@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 interface BlogCardProps {
   id: string;
@@ -21,7 +21,7 @@ export default function BlogCard({
   category,
   tags,
   readTime,
-  imageUrl
+  imageUrl,
 }: BlogCardProps) {
   return (
     <article className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
@@ -37,7 +37,7 @@ export default function BlogCard({
           />
         </div>
       )}
-      
+
       <div className="p-6">
         {/* 分类标签 */}
         <div className="mb-3">
@@ -45,15 +45,15 @@ export default function BlogCard({
             {category}
           </span>
         </div>
-        
+
         {/* 标题 */}
         <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-orange-600 transition-colors">
           <a href={`/posts/${id}`}>{title}</a>
         </h2>
-        
+
         {/* 摘要 */}
         <p className="text-gray-600 mb-4 line-clamp-3">{excerpt}</p>
-        
+
         {/* 标签 */}
         <div className="flex flex-wrap gap-2 mb-4">
           {tags.slice(0, 3).map((tag) => (
@@ -70,7 +70,7 @@ export default function BlogCard({
             </span>
           )}
         </div>
-        
+
         {/* 底部信息 */}
         <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t">
           <div className="flex items-center space-x-4">
@@ -78,10 +78,10 @@ export default function BlogCard({
             <span>⏰ {readTime}分钟阅读</span>
           </div>
           <time dateTime={date}>
-            {new Date(date).toLocaleDateString('zh-CN', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
+            {new Date(date).toLocaleDateString("zh-CN", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             })}
           </time>
         </div>

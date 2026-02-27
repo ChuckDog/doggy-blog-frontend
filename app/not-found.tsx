@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -20,7 +20,9 @@ export default function NotFound() {
 
         {/* 可能的原因 */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-8 text-left inline-block">
-          <h2 className="text-lg font-semibold text-gray-900 mb-3">可能的原因：</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-3">
+            可能的原因：
+          </h2>
           <ul className="space-y-2 text-gray-600">
             <li className="flex items-start">
               <span className="text-orange-500 mr-2">•</span>
@@ -55,9 +57,7 @@ export default function NotFound() {
 
         {/* 趣味提示 */}
         <div className="mt-12 text-gray-500">
-          <p className="text-sm">
-            别担心，我们的狗狗正在努力寻找这个页面...
-          </p>
+          <p className="text-sm">别担心，我们的狗狗正在努力寻找这个页面...</p>
           <div className="mt-2 text-2xl">🐕‍🦺🐾🐕</div>
         </div>
       </div>

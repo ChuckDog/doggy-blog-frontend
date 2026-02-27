@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Category } from '@/types/blog';
+import { useState } from "react";
+import Link from "next/link";
+import { Category } from "@/types/blog";
 
 interface CategoryListProps {
   categories: Category[];
@@ -31,13 +31,13 @@ export default function CategoryList({ categories }: CategoryListProps) {
           </Link>
         ))}
       </div>
-      
+
       {categories.length > 5 && (
         <button
           onClick={() => setExpanded(!expanded)}
           className="mt-4 w-full text-orange-600 hover:text-orange-700 font-medium py-2 rounded-lg transition-colors"
         >
-          {expanded ? '收起' : `展开全部 (${categories.length})`}
+          {expanded ? "收起" : `展开全部 (${categories.length})`}
         </button>
       )}
     </div>

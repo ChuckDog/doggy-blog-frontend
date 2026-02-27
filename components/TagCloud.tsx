@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Tag } from '@/types/blog';
+import Link from "next/link";
+import { Tag } from "@/types/blog";
 
 interface TagCloudProps {
   tags: Tag[];
@@ -10,16 +10,16 @@ interface TagCloudProps {
 export default function TagCloud({ tags }: TagCloudProps) {
   // 根据标签数量确定大小级别
   const getSizeClass = (count: number) => {
-    if (count >= 5) return 'text-lg font-bold';
-    if (count >= 3) return 'text-base font-medium';
-    return 'text-sm';
+    if (count >= 5) return "text-lg font-bold";
+    if (count >= 3) return "text-base font-medium";
+    return "text-sm";
   };
 
   // 根据标签数量确定颜色深浅
   const getColorClass = (count: number) => {
-    if (count >= 5) return 'text-orange-700 bg-orange-100 hover:bg-orange-200';
-    if (count >= 3) return 'text-orange-600 bg-orange-50 hover:bg-orange-100';
-    return 'text-orange-500 bg-orange-50 hover:bg-orange-100';
+    if (count >= 5) return "text-orange-700 bg-orange-100 hover:bg-orange-200";
+    if (count >= 3) return "text-orange-600 bg-orange-50 hover:bg-orange-100";
+    return "text-orange-500 bg-orange-50 hover:bg-orange-100";
   };
 
   return (

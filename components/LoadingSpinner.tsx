@@ -1,31 +1,33 @@
-'use client';
+"use client";
 
 interface LoadingSpinnerProps {
-  size?: 'sm' | 'md' | 'lg';
-  color?: 'orange' | 'gray' | 'white';
+  size?: "sm" | "md" | "lg";
+  color?: "orange" | "gray" | "white";
   fullScreen?: boolean;
 }
 
 export default function LoadingSpinner({
-  size = 'md',
-  color = 'orange',
-  fullScreen = false
+  size = "md",
+  color = "orange",
+  fullScreen = false,
 }: LoadingSpinnerProps) {
   const sizeClasses = {
-    sm: 'w-6 h-6',
-    md: 'w-12 h-12',
-    lg: 'w-16 h-16'
+    sm: "w-6 h-6",
+    md: "w-12 h-12",
+    lg: "w-16 h-16",
   };
 
   const colorClasses = {
-    orange: 'text-orange-500',
-    gray: 'text-gray-500',
-    white: 'text-white'
+    orange: "text-orange-500",
+    gray: "text-gray-500",
+    white: "text-white",
   };
 
   const spinner = (
     <div className="flex flex-col items-center justify-center">
-      <div className={`${sizeClasses[size]} ${colorClasses[color]} animate-spin`}>
+      <div
+        className={`${sizeClasses[size]} ${colorClasses[color]} animate-spin`}
+      >
         <svg
           className="w-full h-full"
           viewBox="0 0 24 24"
@@ -47,7 +49,9 @@ export default function LoadingSpinner({
           ></path>
         </svg>
       </div>
-      <p className={`mt-3 text-${size === 'sm' ? 'sm' : 'base'} ${colorClasses[color]} font-medium`}>
+      <p
+        className={`mt-3 text-${size === "sm" ? "sm" : "base"} ${colorClasses[color]} font-medium`}
+      >
         加载中...
       </p>
     </div>

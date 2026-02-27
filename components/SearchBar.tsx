@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { searchPosts } from '@/lib/data';
+import { useState } from "react";
+import { searchPosts } from "@/lib/data";
+import { BlogPost } from "@/types/blog";
 
 interface SearchBarProps {
-  onSearch?: (results: any[]) => void;
+  onSearch?: (results: BlogPost[]) => void;
 }
 
 export default function SearchBar({ onSearch }: SearchBarProps) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
   const handleSearch = (e: React.FormEvent) => {
@@ -20,7 +21,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   };
 
   const clearSearch = () => {
-    setSearchTerm('');
+    setSearchTerm("");
     onSearch?.([]);
   };
 
@@ -38,17 +39,17 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
             className="w-full px-4 py-3 pl-12 pr-12 text-gray-700 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition-all"
           />
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <svg 
-              className="h-5 w-5 text-gray-400" 
-              fill="none" 
-              viewBox="0 0 24 24" 
+            <svg
+              className="h-5 w-5 text-gray-400"
+              fill="none"
+              viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" 
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
           </div>
@@ -58,17 +59,17 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
               onClick={clearSearch}
               className="absolute inset-y-0 right-0 pr-3 flex items-center"
             >
-              <svg 
-                className="h-5 w-5 text-gray-400 hover:text-gray-600" 
-                fill="none" 
-                viewBox="0 0 24 24" 
+              <svg
+                className="h-5 w-5 text-gray-400 hover:text-gray-600"
+                fill="none"
+                viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M6 18L18 6M6 6l12 12" 
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
             </button>
@@ -87,7 +88,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         <div className="absolute z-10 w-full mt-1 bg-white rounded-lg shadow-lg border border-gray-200">
           <div className="p-3">
             <p className="text-sm text-gray-600">
-              🔍 搜索 "{searchTerm}" 相关的文章
+              🔍 搜索 &quot;{searchTerm}&quot; 相关的文章
             </p>
           </div>
         </div>
