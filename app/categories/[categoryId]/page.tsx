@@ -1,7 +1,8 @@
-import { getPostsByCategory } from "@/lib/data";
+import { getPostsByCategory } from "@/lib/api";
 import BlogCard from "@/components/BlogCard";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BlogPost } from "@/types/blog";
 
 interface CategoryDetailPageProps {
   params: Promise<{ categoryId: string }>;
@@ -41,7 +42,7 @@ export default async function CategoryDetailPage({
     notFound();
   }
 
-  const posts = getPostsByCategory(categoryName);
+  const posts: BlogPost[] = await getPostsByCategory(resolvedParams.categoryId);
 
   if (posts.length === 0) {
     notFound();
@@ -95,7 +96,7 @@ export default async function CategoryDetailPage({
 
         {/* 文章列表 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
+          {posts.map((post: BlogPost) => (
             <BlogCard key={post.id} {...post} />
           ))}
         </div>

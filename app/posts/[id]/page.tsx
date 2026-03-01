@@ -1,20 +1,20 @@
 import { notFound } from "next/navigation";
-import { getPostById, blogPosts, getRelatedPosts } from "@/lib/data";
+import { getPostById, getBlogPosts } from "@/lib/api";
 import Link from "next/link";
+import { BlogPost } from "@/types/blog";
 
 interface PostPageProps {
   params: Promise<{ id: string }>;
 }
 
 export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    id: post.id,
-  }));
+  const posts: BlogPost[] = await getBlogPosts();
+  return posts.map((post) => ({ id: post.id }));
 }
 
 export async function generateMetadata({ params }: PostPageProps) {
   const resolvedParams = await params;
-  const post = getPostById(resolvedParams.id);
+  const post: BlogPost = await getPostById(resolvedParams.id);
 
   if (!post) {
     return {
@@ -30,13 +30,21 @@ export async function generateMetadata({ params }: PostPageProps) {
 
 export default async function PostPage({ params }: PostPageProps) {
   const resolvedParams = await params;
-  const post = getPostById(resolvedParams.id);
+  const post: BlogPost = await getPostById(resolvedParams.id);
 
   if (!post) {
     notFound();
   }
 
-  const relatedPosts = getRelatedPosts(post.id, 3);
+  const allPosts: BlogPost[] = await getBlogPosts();
+  const relatedPosts = allPosts
+    .filter(
+      (p) =>
+        p.id !== post.id &&
+        (p.category === post.category ||
+          p.tags.some((tag: string) => post.tags.includes(tag))),
+    )
+    .slice(0, 3);
 
   // 将Markdown格式的内容转换为HTML
   const formatContent = (content: string) => {
@@ -219,35 +227,28 @@ export default async function PostPage({ params }: PostPageProps) {
 
         {/* 上下篇文章导航 */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {blogPosts.findIndex((p) => p.id === post.id) > 0 && (
+          {allPosts.findIndex((p) => p.id === post.id) > 0 && (
             <Link
-              href={`/posts/${blogPosts[blogPosts.findIndex((p) => p.id === post.id) - 1].id}`}
+              href={`/posts/${allPosts[allPosts.findIndex((p) => p.id === post.id) - 1].id}`}
               className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
             >
               <div className="text-sm text-gray-500 mb-2">上一篇</div>
               <div className="font-semibold text-gray-900 line-clamp-2">
-                {
-                  blogPosts[blogPosts.findIndex((p) => p.id === post.id) - 1]
-                    .title
-                }
+                {allPosts[allPosts.findIndex((p) => p.id === post.id) - 1].title}
               </div>
             </Link>
           )}
 
-          {blogPosts.findIndex((p) => p.id === post.id) <
-            blogPosts.length - 1 && (
+          {allPosts.findIndex((p) => p.id === post.id) < allPosts.length - 1 && (
             <Link
-              href={`/posts/${blogPosts[blogPosts.findIndex((p) => p.id === post.id) + 1].id}`}
+              href={`/posts/${allPosts[allPosts.findIndex((p) => p.id === post.id) + 1].id}`}
               className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow md:ml-auto"
             >
               <div className="text-sm text-gray-500 mb-2 text-right">
                 下一篇
               </div>
               <div className="font-semibold text-gray-900 line-clamp-2 text-right">
-                {
-                  blogPosts[blogPosts.findIndex((p) => p.id === post.id) + 1]
-                    .title
-                }
+                {allPosts[allPosts.findIndex((p) => p.id === post.id) + 1].title}
               </div>
             </Link>
           )}

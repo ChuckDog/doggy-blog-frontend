@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { searchPosts } from "@/lib/data";
+import { searchPosts } from "@/lib/api";
 import { BlogPost } from "@/types/blog";
 
 interface SearchBarProps {
@@ -12,11 +12,15 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isFocused, setIsFocused] = useState(false);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (searchTerm.trim()) {
-      const results = searchPosts(searchTerm);
-      onSearch?.(results);
+      try {
+        const results = await searchPosts(searchTerm);
+        onSearch?.(results);
+      } catch (err) {
+        console.error(err);
+      }
     }
   };
 

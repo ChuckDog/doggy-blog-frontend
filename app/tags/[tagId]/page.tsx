@@ -1,7 +1,8 @@
-import { getPostsByTag } from "@/lib/data";
+import { getPostsByTag } from "@/lib/api";
 import BlogCard from "@/components/BlogCard";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BlogPost } from "@/types/blog";
 
 interface TagDetailPageProps {
   params: Promise<{ tagId: string }>;
@@ -47,7 +48,7 @@ export default async function TagDetailPage({ params }: TagDetailPageProps) {
     notFound();
   }
 
-  const posts = getPostsByTag(tagName);
+  const posts: BlogPost[] = await getPostsByTag(resolvedParams.tagId);
 
   if (posts.length === 0) {
     notFound();
@@ -117,7 +118,7 @@ export default async function TagDetailPage({ params }: TagDetailPageProps) {
 
         {/* 文章列表 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
+          {posts.map((post: BlogPost) => (
             <BlogCard key={post.id} {...post} />
           ))}
         </div>

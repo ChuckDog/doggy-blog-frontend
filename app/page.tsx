@@ -1,25 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BlogCard from "@/components/BlogCard";
 import SearchBar from "@/components/SearchBar";
 import CategoryList from "@/components/CategoryList";
 import TagCloud from "@/components/TagCloud";
-import { blogPosts, getCategories, getTags } from "@/lib/data";
+import { getBlogPosts, getCategories, getTags } from "@/lib/api";
 import { BlogPost } from "@/types/blog";
 
 export default function Home() {
   const [searchResults, setSearchResults] = useState<BlogPost[]>([]);
   const [showSearchResults, setShowSearchResults] = useState(false);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [categories, setCategories] = useState<{ id: string; name: string; count: number }[]>([]);
+  const [tags, setTags] = useState<{ id: string; name: string; count: number }[]>([]);
 
   const handleSearch = (results: BlogPost[]) => {
     setSearchResults(results);
     setShowSearchResults(true);
   };
 
-  const categories = getCategories();
-  const tags = getTags();
-  const displayPosts = showSearchResults ? searchResults : blogPosts;
+  useEffect(() => {
+    (async () => {
+      try {
+        const [p, c, t] = await Promise.all([getBlogPosts(), getCategories(), getTags()]);
+        setPosts(p);
+        setCategories(c);
+        setTags(t);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+  const displayPosts = showSearchResults ? searchResults : posts;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50">
@@ -45,7 +59,7 @@ export default function Home() {
           <div className="flex justify-center space-x-8 text-gray-600">
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-500">
-                {blogPosts.length}
+                {posts.length}
               </div>
               <div className="text-sm">篇文章</div>
             </div>

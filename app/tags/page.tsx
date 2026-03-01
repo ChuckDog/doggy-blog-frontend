@@ -1,8 +1,8 @@
-import { getTags } from "@/lib/data";
+import { getTags } from "@/lib/api";
 import Link from "next/link";
 
-export default function TagsPage() {
-  const tags = getTags();
+export default async function TagsPage() {
+  const tags: { id: string; name: string; count: number }[] = await getTags();
 
   // 按文章数量排序
   const sortedTags = [...tags].sort((a, b) => b.count - a.count);
