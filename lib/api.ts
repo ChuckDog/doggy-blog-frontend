@@ -1,4 +1,4 @@
-const BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:3000";
+const BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:3001";
 
 export async function getBlogPosts() {
   const res = await fetch(`${BASE}/blog/posts`, { cache: "no-store" });
