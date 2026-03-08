@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/components/AuthProvider";
 import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 
 const geistSans = Geist({
@@ -28,37 +30,16 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[var(--background)] text-[var(--foreground)] min-h-screen`}
       >
-        <div className="flex flex-col min-h-screen">
-          <Navigation />
-          <main className="flex-grow">{children}</main>
-          <footer className="bg-gray-800 text-white py-8 mt-12">
-            <div className="max-w-6xl mx-auto px-4">
-              <div className="text-center">
-                <h3 className="text-xl font-bold mb-2">🐶 狗狗日记</h3>
-                <p className="text-gray-300 mb-4">
-                  分享养狗的快乐时光，记录每一个美好瞬间
-                </p>
-                <div className="flex justify-center space-x-6 text-sm text-gray-400">
-                  <a href="#" className="hover:text-white transition-colors">
-                    关于我们
-                  </a>
-                  <a href="#" className="hover:text-white transition-colors">
-                    联系我们
-                  </a>
-                  <a href="#" className="hover:text-white transition-colors">
-                    隐私政策
-                  </a>
-                </div>
-                <div className="mt-6 pt-6 border-t border-gray-700 text-sm text-gray-400">
-                  © {new Date().getFullYear()} 狗狗日记. 保留所有权利.
-                </div>
-              </div>
-            </div>
-          </footer>
-        </div>
-        <BackToTop />
+        <AuthProvider>
+          <div className="flex flex-col min-h-screen">
+            <Navigation />
+            <main className="flex-grow pt-16">{children}</main>
+            <Footer />
+          </div>
+          <BackToTop />
+        </AuthProvider>
       </body>
     </html>
   );

@@ -2,6 +2,9 @@ import { notFound } from "next/navigation";
 import { getPostById, getBlogPosts } from "@/lib/api";
 import Link from "next/link";
 import { BlogPost } from "@/types/blog";
+import { Calendar, Clock, User, ArrowLeft, Tag } from "lucide-react";
+import LikeButton from "@/components/LikeButton";
+import ShareButton from "@/components/ShareButton";
 
 interface PostPageProps {
   params: Promise<{ id: string }>;
@@ -51,172 +54,139 @@ export default async function PostPage({ params }: PostPageProps) {
     return content
       .replace(
         /## (.*?)(?=\n|$)/g,
-        '<h2 class="text-2xl font-bold text-gray-900 mt-8 mb-4">$1</h2>',
+        '<h2 class="text-3xl font-bold text-gray-900 mt-12 mb-6">$1</h2>',
       )
       .replace(
         /### (.*?)(?=\n|$)/g,
-        '<h3 class="text-xl font-semibold text-gray-800 mt-6 mb-3">$1</h3>',
+        '<h3 class="text-2xl font-semibold text-gray-800 mt-8 mb-4">$1</h3>',
       )
       .replace(
         /#### (.*?)(?=\n|$)/g,
-        '<h4 class="text-lg font-medium text-gray-700 mt-4 mb-2">$1</h4>',
+        '<h4 class="text-xl font-medium text-gray-700 mt-6 mb-3">$1</h4>',
       )
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em class="italic">$1</em>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em class="italic text-gray-700">$1</em>')
       .replace(
         /`(.*?)`/g,
-        '<code class="bg-gray-100 px-1 py-0.5 rounded text-sm">$1</code>',
+        '<code class="bg-orange-50 text-orange-600 px-1.5 py-0.5 rounded font-mono text-sm">$1</code>',
       )
-      .replace(/\n\n/g, '</p><p class="mb-4">')
-      .replace(/^\n/, '<p class="mb-4">')
+      .replace(
+        /^- (.*)/gm,
+        '<li class="flex items-start mb-2"><span class="mr-2 mt-1.5 w-1.5 h-1.5 bg-orange-400 rounded-full flex-shrink-0"></span><span>$1</span></li>'
+      )
+      .replace(/\n\n/g, '</p><p class="mb-6 leading-relaxed text-gray-700 text-lg">')
+      .replace(/^\n/, '<p class="mb-6 leading-relaxed text-gray-700 text-lg">')
       .replace(/\n$/, "</p>");
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* 返回按钮 */}
-        <div className="mb-6">
-          <Link
-            href="/"
-            className="inline-flex items-center text-orange-600 hover:text-orange-700 font-medium transition-colors"
-          >
-            <svg
-              className="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
+    <div className="min-h-screen bg-white">
+      {/* Hero Header */}
+      <div className="relative h-[60vh] min-h-[400px] w-full overflow-hidden bg-gray-900">
+        {post.imageUrl ? (
+          <img
+            src={post.imageUrl}
+            alt={post.title}
+            className="w-full h-full object-cover opacity-60"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-br from-orange-400 to-yellow-500 opacity-80" />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        
+        <div className="absolute inset-0 flex items-end">
+          <div className="max-w-4xl mx-auto px-4 pb-16 w-full">
+            <Link
+              href="/"
+              className="inline-flex items-center text-white/80 hover:text-white mb-8 transition-colors"
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 19l-7-7m0 0l7-7m-7 7h18"
-              />
-            </svg>
-            返回首页
-          </Link>
-        </div>
-
-        <article className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          {/* 文章头部 */}
-          <header className="p-8 border-b border-gray-200">
-            <div className="mb-4">
-              <span className="inline-block px-3 py-1 text-sm font-semibold text-orange-700 bg-orange-100 rounded-full">
+              <ArrowLeft size={20} className="mr-2" />
+              返回首页
+            </Link>
+            
+            <div className="space-y-4">
+              <span className="inline-block px-4 py-1.5 bg-orange-500 text-white text-sm font-bold rounded-full shadow-lg">
                 {post.category}
               </span>
-            </div>
-
-            <h1 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
-              {post.title}
-            </h1>
-
-            <div className="flex flex-wrap items-center gap-4 text-gray-600">
-              <div className="flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-                <span>{post.author}</span>
-              </div>
-
-              <div className="flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-                <time dateTime={post.date}>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                {post.title}
+              </h1>
+              <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm md:text-base">
+                <div className="flex items-center">
+                  <User size={18} className="mr-2" />
+                  {post.author}
+                </div>
+                <div className="flex items-center">
+                  <Calendar size={18} className="mr-2" />
                   {new Date(post.date).toLocaleDateString("zh-CN", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
                   })}
-                </time>
-              </div>
-
-              <div className="flex items-center">
-                <svg
-                  className="w-5 h-5 mr-2 text-gray-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  />
-                </svg>
-                <span>{post.readTime}分钟阅读</span>
+                </div>
+                <div className="flex items-center">
+                  <Clock size={18} className="mr-2" />
+                  {post.readTime} 分钟阅读
+                </div>
               </div>
             </div>
-          </header>
+          </div>
+        </div>
+      </div>
 
+      <div className="max-w-4xl mx-auto px-4 -mt-10 relative z-10">
+        <article className="bg-white rounded-t-3xl shadow-xl overflow-hidden min-h-[500px]">
           {/* 文章内容 */}
-          <div className="p-8">
+          <div className="p-8 md:p-12 lg:p-16">
             <div
-              className="prose prose-lg max-w-none"
+              className="prose prose-lg prose-orange max-w-none"
               dangerouslySetInnerHTML={{ __html: formatContent(post.content) }}
             />
           </div>
 
-          {/* 文章标签 */}
-          <footer className="px-8 pb-8">
-            <div className="border-t border-gray-200 pt-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">标签</h3>
+          {/* 文章底部 */}
+          <div className="px-8 md:px-12 lg:px-16 pb-12">
+            <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="flex flex-wrap gap-2">
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-3 py-1 text-sm text-orange-700 bg-orange-100 rounded-full hover:bg-orange-200 transition-colors cursor-pointer"
+                    className="inline-flex items-center px-4 py-2 bg-gray-50 text-gray-600 rounded-full text-sm hover:bg-orange-50 hover:text-orange-600 transition-colors cursor-pointer"
                   >
-                    #{tag}
+                    <Tag size={14} className="mr-2" />
+                    {tag}
                   </span>
                 ))}
               </div>
+              
+              <div className="flex items-center gap-4">
+                <LikeButton postId={post.id} />
+                <ShareButton title={post.title} text={post.excerpt || post.title} />
+              </div>
             </div>
-          </footer>
+          </div>
         </article>
 
-        {/* 相关文章 */}
+        {/* 相关推荐 */}
         {relatedPosts.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">相关文章</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="py-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-8">猜你喜欢</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {relatedPosts.map((relatedPost) => (
                 <Link
                   key={relatedPost.id}
                   href={`/posts/${relatedPost.id}`}
-                  className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
+                  className="group bg-white rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100"
                 >
-                  <div className="mb-3">
-                    <span className="inline-block px-2 py-1 text-xs font-semibold text-orange-700 bg-orange-100 rounded-full">
+                  <div className="mb-4">
+                    <span className="inline-block px-3 py-1 text-xs font-bold text-orange-600 bg-orange-50 rounded-full">
                       {relatedPost.category}
                     </span>
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors line-clamp-2">
                     {relatedPost.title}
                   </h3>
-                  <p className="text-gray-600 text-sm line-clamp-2">
+                  <p className="text-gray-500 text-sm line-clamp-2 leading-relaxed">
                     {relatedPost.excerpt}
                   </p>
                 </Link>
@@ -224,35 +194,6 @@ export default async function PostPage({ params }: PostPageProps) {
             </div>
           </div>
         )}
-
-        {/* 上下篇文章导航 */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {allPosts.findIndex((p) => p.id === post.id) > 0 && (
-            <Link
-              href={`/posts/${allPosts[allPosts.findIndex((p) => p.id === post.id) - 1].id}`}
-              className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow"
-            >
-              <div className="text-sm text-gray-500 mb-2">上一篇</div>
-              <div className="font-semibold text-gray-900 line-clamp-2">
-                {allPosts[allPosts.findIndex((p) => p.id === post.id) - 1].title}
-              </div>
-            </Link>
-          )}
-
-          {allPosts.findIndex((p) => p.id === post.id) < allPosts.length - 1 && (
-            <Link
-              href={`/posts/${allPosts[allPosts.findIndex((p) => p.id === post.id) + 1].id}`}
-              className="bg-white rounded-xl shadow-md p-6 hover:shadow-lg transition-shadow md:ml-auto"
-            >
-              <div className="text-sm text-gray-500 mb-2 text-right">
-                下一篇
-              </div>
-              <div className="font-semibold text-gray-900 line-clamp-2 text-right">
-                {allPosts[allPosts.findIndex((p) => p.id === post.id) + 1].title}
-              </div>
-            </Link>
-          )}
-        </div>
       </div>
     </div>
   );

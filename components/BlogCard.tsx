@@ -1,16 +1,9 @@
-import Image from "next/image";
+'use client';
 
-interface BlogCardProps {
-  id: string;
-  title: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  category: string;
-  tags: string[];
-  readTime: number;
-  imageUrl?: string;
-}
+import Link from 'next/link';
+import { BlogPost } from '@/types/blog';
+import { Calendar, Clock, User, ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function BlogCard({
   id,
@@ -20,72 +13,78 @@ export default function BlogCard({
   date,
   category,
   tags,
-  readTime,
   imageUrl,
-}: BlogCardProps) {
+  readTime,
+}: BlogPost) {
   return (
-    <article className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-      {/* 封面图片 */}
-      {imageUrl && (
-        <div className="relative h-48 w-full">
-          <Image
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -5 }}
+      transition={{ duration: 0.3 }}
+      className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-orange-50 group flex flex-col h-full"
+    >
+      {/* Image Section */}
+      <div className="relative h-48 overflow-hidden bg-orange-100">
+        {imageUrl ? (
+          <img
             src={imageUrl}
             alt={title}
-            fill
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
-        </div>
-      )}
-
-      <div className="p-6">
-        {/* 分类标签 */}
-        <div className="mb-3">
-          <span className="inline-block px-3 py-1 text-xs font-semibold text-orange-700 bg-orange-100 rounded-full">
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-orange-300">
+            <span className="text-6xl opacity-50">🐾</span>
+          </div>
+        )}
+        <div className="absolute top-4 left-4">
+          <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-orange-600 text-xs font-bold rounded-full uppercase tracking-wider shadow-sm">
             {category}
           </span>
         </div>
+      </div>
 
-        {/* 标题 */}
-        <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-orange-600 transition-colors">
-          <a href={`/posts/${id}`}>{title}</a>
-        </h2>
-
-        {/* 摘要 */}
-        <p className="text-gray-600 mb-4 line-clamp-3">{excerpt}</p>
-
-        {/* 标签 */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {tags.slice(0, 3).map((tag) => (
-            <span
-              key={tag}
-              className="px-2 py-1 text-xs text-gray-600 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors"
-            >
-              #{tag}
-            </span>
-          ))}
-          {tags.length > 3 && (
-            <span className="px-2 py-1 text-xs text-gray-500 bg-gray-100 rounded-full">
-              +{tags.length - 3} more
-            </span>
-          )}
+      {/* Content Section */}
+      <div className="p-6 flex flex-col flex-grow">
+        {/* Meta Info */}
+        <div className="flex items-center space-x-4 text-xs text-gray-500 mb-3">
+          <div className="flex items-center">
+            <Calendar size={14} className="mr-1 text-orange-400" />
+            {date}
+          </div>
+          <div className="flex items-center">
+            <Clock size={14} className="mr-1 text-orange-400" />
+            {readTime} 分钟阅读
+          </div>
         </div>
 
-        {/* 底部信息 */}
-        <div className="flex items-center justify-between text-sm text-gray-500 pt-4 border-t">
-          <div className="flex items-center space-x-4">
-            <span>👤 {author}</span>
-            <span>⏰ {readTime}分钟阅读</span>
+        {/* Title */}
+        <Link href={`/posts/${id}`} className="block mb-3">
+          <h2 className="text-xl font-bold text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-2">
+            {title}
+          </h2>
+        </Link>
+
+        {/* Excerpt */}
+        <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3 flex-grow">
+          {excerpt}
+        </p>
+
+        {/* Footer */}
+        <div className="mt-auto pt-4 border-t border-orange-50 flex items-center justify-between">
+          <div className="flex items-center text-xs text-gray-500">
+            <User size={14} className="mr-1 text-orange-400" />
+            {author}
           </div>
-          <time dateTime={date}>
-            {new Date(date).toLocaleDateString("zh-CN", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </time>
+          <Link
+            href={`/posts/${id}`}
+            className="flex items-center text-orange-500 text-sm font-medium hover:text-orange-600 transition-colors group-hover:translate-x-1 duration-300"
+          >
+            阅读更多 <ArrowRight size={16} className="ml-1" />
+          </Link>
         </div>
       </div>
-    </article>
+    </motion.article>
   );
 }
